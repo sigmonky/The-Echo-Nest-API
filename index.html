@@ -1,118 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script data-main="js/main" src="js/require.js"></script>
 </head>
 <body>
+
 </body>
-<script src="js/zepto.js"></script>
-<script src="js/backbone.js"></script>
-<script type="text/javascript">
-/*
-Your API Key: GBP7GKPJKWLPVUXMN 
-
-Your Consumer Key: 6722f3486d57554221b97546145ccffc 
-
-Your Shared Secret: KjJGTAOtSJC9kVcptmMagA
-
-
-http://developer.echonest.com/api/v4/artist/search?api_key=GBP7GKPJKWLPVUXMN&name=radiohead
-
-
-Artist API
-
-Song API
-
-Track API
-Analysis - The track analysis includes summary information about a track including tempo, key signature, time signature mode and loudness, along with detailed information about the song structure (sections) beat structure (bars, beats tatums) and detailed info about timbre, pitch and loudness envelope (segment).
-
-Playlist API
-Api calls for generating playlists
-
-Taste Profile
-A taste profile is a named collection of music items (artists, songs) that can be used as input to other API calls.
-
-
-Data Feeds (rss, atom)
-*/
-var ArtistBio = Backbone.Model.extend({
-/*
-	biographies
-	blogs
-	familiarity
-	hotttnesss
-	images
-	list_terms
-	news
-	profile
-	reviews
-	search
-	extract (beta)
-	songs
-	similar
-	suggest (beta)
-	terms
-	top_hottt
-	top_terms
-	twitter
-	urls
-	video
-*/
-	urlRoot: "http://developer.echonest.com/api/v4/artist/",
-	url: function(){
-	 //biographies, 
-	}
-
-});
-
-
-var ArtistBlogs = Backbone.Model.extend({});
-var ArtistFamiliarity = Backbone.Model.extend({});
-var ArtistHottness = Backbone.Model.extend({});
-var ArtistImages = Backbone.Model.extend({});
-var ArtistListTerms = Backbone.Model.extend({});
-var ArtistNews = Backbone.Model.extend({});
-var ArtistProfile = Backbone.Model.extend({});
-var ArtistReviews = Backbone.Model.extend({});
-var ArtistSearch = Backbone.Model.extend({});
-var ArtistExtract = Backbone.Model.extend({}); //beta
-var ArtistSongs  = Backbone.Model.extend({});
-var ArtistSimilar = Backbone.Model.extend({});
-var ArtistSuggest = Backbone.Model.extend({}); //beta
-var ArtistTerms = Backbone.Model.extend({});
-var ArtistTopHottt = Backbone.Model.extend({});
-var ArtistTopTerms = Backbone.Model.extend({});
-var ArtistTwitter = Backbone.Model.extend({});
-var ArtistUrls = Backbone.Model.extend({});
-var ArtistVideo = Backbone.Model.extend({});
 
 
 
-
-
-
-
-
-var Song = Backbone.Model.extend({
-/*
-search
-profile
-identify
-
-http://developer.echonest.com/api/v4/song/search?api_key=N6E4NIOVYMTHNDM8J&format=json&results=1&artist=radiohead&title=karma%20police
-*/
-	urlRoot: ""
-});
-
-var Track = Backbone.Model.extend({
-/*
-
-*/
-});
-
-var Playlist = Backbone.Model.extend({
-/*
-*/	
-});
-
-</script>
 </html>
