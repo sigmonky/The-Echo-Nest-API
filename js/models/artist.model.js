@@ -29,117 +29,115 @@ Artist
 
 define(['config','utils/lodash','utils/backbone'],function( config ){
 
-console.log("Artist Model loaded");
+//console.log("Artist Model loaded");
+/*
+ Required: name || id, api key.
+ Required (search): api key only
 
-var Artist = Artist || {};
-	
-  //Get a list of artist biographies.
-  Artist.Bio = Backbone.Model.extend({
-  
-  	defaults: {
-  		text: '',
-  		site: '',
-  		url: '',
-  		license: {
-  			type: '',
-  			attribution: '',
-  			url: ''
+*/
+
+
+function hasRequired(attr){
+  	
+  		if( !attr['id'] && !attr['name']){
+  	      	     
+  	     return "Enter and id or name attribute";
+  	     
   		}
-  	},
-  	urlRoot: config.apiurl + '/artist/biographies?api_key=' + config.key,
+
+}
+
+function _url(route){
+	return config.apiurl + '/artist/'+ route +'?api_key=' + config.key +'&results=1&';
+}
+
+var ArtistM = ArtistM || {};
+   
+  //Get a list of artist biographies.
+  ArtistM.Bio = Backbone.Model.extend({
+
+  	urlRoot: config.apiurl + '/artist/biographies?api_key=' + config.key +'&results=1&',
   	url: function(){
-  	
-  		/*
+ 		
+   		/* @params: id*,name*,format,callback*,results,start,license */	
+  		var id = this.get('id'), 
+  			name = this.get('name'),
+  			typeReq;
+		
+   		typeReq = this.has('id') ? 'id=' + id : 'name=' + name;		
   		
-  		@params: id*,name*,format,callback*,results,start,license
-  		 
-  		 need and id or a name
-  		 
-  		 need a callback if format is jsonp
-  		 
-  		 results default is 15
-  		 
-  		 start index is 0
-  		 
-  		 license is not required
-  		
-  		*/
-  		
-  		
-  		return this.urlRoot; 
-  	/*
-  	 id, name, format, callback, results, start, license.
-  	*/
-  	
+  		return this.urlRoot + typeReq;
+
   	},
-  	validate: function(){
+  	validate: hasRequired
+  	
   	/*
-  	 runs on set or save. return error of choice
-  	 no return = successul
-  	*/
-  	 
+  	function(attr){
+  		
+  		//$error = id_or_name(attr);
+  	
+  	
+  		if( !attr['id'] && !attr['name']){
+  	      	     
+  	     return "Enter and id or name attribute";
+  	     
+  		}
+  		
+  
+  	}*/,
+  	parse: function(obj){  	  	 
+  	 /* response: license:obj, site:string, text:string, truncated:bool, url:string  */ 
+  	 return obj.response.biographies[0];
   	}
   });
   
   //Get a list of blog articles related to an artist.
-  Artist.Blogs = Backbone.Model.extend({
+  ArtistM.Blogs = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/blogs?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
-
+  	validate: hasRequired
   });
   
   //Get our numerical estimation of how familiar an artist currently is to the world.
-  Artist.Familiarity = Backbone.Model.extend({
+  ArtistM.Familiarity = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/familiarity?api_key=' + config.key,
-  	validate: function(){
+  	url: function(){
   	
-  	}
+  	},
+  	validate: hasRequired
   });
   
   //Returns our numerical description of how hottt an artist currently is.
-  Artist.Hottness = Backbone.Model.extend({
+  ArtistM.Hottness = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/hotttnesss?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Get a list of artist images.
-  Artist.Images = Backbone.Model.extend({
+  ArtistM.Images = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/images?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Get a list of the best typed descriptive terms for use with search. 
-  Artist.ListTerms = Backbone.Model.extend({
+  ArtistM.ListTerms = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/list_terms?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Get a list of news articles found on the web related to an artist.
-  Artist.News = Backbone.Model.extend({
+  ArtistM.News = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/news?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Get basic information on an artist: the name, the Echo Nest ID, and the MusicBrainz ID.
-  Artist.Profile = Backbone.Model.extend({
+  ArtistM.Profile = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/profile?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Get reviews related to an artist's work.
-  Artist.Reviews = Backbone.Model.extend({
+  ArtistM.Reviews = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/api/v4/artist/reviews?api_key=' + config.key,
   	validate: function(){
   	
@@ -147,7 +145,7 @@ var Artist = Artist || {};
   });
   
   //Search artists.
-  Artist.Search = Backbone.Model.extend({
+  ArtistM.Search = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/search?api_key=' + config.key,
   	validate: function(){
   	
@@ -155,47 +153,37 @@ var Artist = Artist || {};
   });
   
   //Extract artist names from text.(beta)
-  Artist.Extract = Backbone.Model.extend({
+  ArtistM.Extract = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/extract?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   }); //beta
   
   //Get a list of songs created by an artist.
-  Artist.Songs  = Backbone.Model.extend({
+  ArtistM.Songs  = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/songs?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Return similar artists given one or more artists for comparison.
-  Artist.Similar = Backbone.Model.extend({
+  ArtistM.Similar = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/similar?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   });
   
   //Suggest artists based upon partial names. (beta)
-  Artist.Suggest = Backbone.Model.extend({
+  ArtistM.Suggest = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/suggest?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired
   }); //beta
   
   // Get a list of most descriptive terms for an artist
-  Artist.Terms = Backbone.Model.extend({
+  ArtistM.Terms = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/terms?api_key=' + config.key,
-  	validate: function(){
-  	
-  	}
+  	validate: hasRequired  
   });
   
   //Return a list of the top hottt artists.
-  Artist.TopHottt = Backbone.Model.extend({
+  ArtistM.TopHottt = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/top_hottt?api_key=' + config.key,
   	validate: function(){
   	
@@ -203,7 +191,7 @@ var Artist = Artist || {};
   });
   
   //Returns a list of the overall top terms. Up to 1,000 terms can be returned.
-  Artist.TopTerms = Backbone.Model.extend({
+  ArtistM.TopTerms = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/top_terms?api_key=' + config.key,
   	validate: function(){
   	
@@ -211,7 +199,7 @@ var Artist = Artist || {};
   });
   
   //Gets the twitter handle for an artist
-  Artist.Twitter = Backbone.Model.extend({
+  ArtistM.Twitter = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/twitter?api_key=' + config.key,
   	validate: function(){
   	
@@ -219,7 +207,7 @@ var Artist = Artist || {};
   });
   
   //Get links to the artist's official site, MusicBrainz site, MySpace site, Wikipedia article, Amazon list, and iTunes page.
-  Artist.Urls = Backbone.Model.extend({
+  ArtistM.Urls = Backbone.Model.extend({
   	urlRoot: config.apiurl + '/artist/urls?api_key=' + config.key,
   	validate: function(){
   	
@@ -227,13 +215,13 @@ var Artist = Artist || {};
   });
   
   //Get a list of video documents found on the web related to an artist.
-  Artist.Video = Backbone.Model.extend({
+  ArtistM.Video = Backbone.Model.extend({
   	urlRoot: '/artist/video?api_key=' + config.key,
   	validate: function(){
   	
   	}
   });
 
-return Artist;
+return ArtistM;
 
 });
