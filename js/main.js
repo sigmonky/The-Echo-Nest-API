@@ -1,6 +1,6 @@
-require(['utils/zepto','models/artist.model','views/artist.view'],function( $, mArtist ){
+require(['utils/zepto','models/artist.model','views/artist.view'],function( $, ArtistM ){
  	
-  var bio = new mArtist.Bio();
+  var bio = new ArtistM.Bio();
   
       bio.on("error", function(model, error){ //checks for id at set
   	    console.log("An error was found");
