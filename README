@@ -1,1 +1,5 @@
 Backbone JS Models and Collections using the Echo Nest API
+
+At present the meat of the application is in the models and collections which will mirror the EchoNest API. 
+
+Once complete the goal is to release this back to the community.
